@@ -4,46 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Projeto CI/CD</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .container {
-            background: white;
-            max-width: 600px;
-            margin: auto;
-            padding: 40px;
-            border-radius: 12px;
-        }
-
-        h1 {
-            color: #2563eb;
-        }
-
-        button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-    </style>
+    <title>TaskFlow | Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Meu primeiro projeto CI/CD!</h1>
-        <p>Aplicação desenvolvida com Node.js e publicada no Netlify.</p>
-        <button onclick="alert('Tudo funcionando!')">
-            Clique aqui
-        </button>
-    </div>
+    <main class="container">
+        <header>
+            <h1>TaskFlow</h1>
+            <p>Organize suas tarefas e acompanhe seu progresso.</p>
+        </header>
 
+        <section class="task-card">
+            <h2>Minhas tarefas</h2>
+
+            <form id="task-form">
+                <input
+                    type="text"
+                    id="task-input"
+                    placeholder="Digite uma nova tarefa..."
+                    autocomplete="off"
+                >
+                <button type="submit">Adicionar</button>
+            </form>
+
+            <div class="task-info">
+                <span id="task-count">0 tarefas pendentes</span>
+            </div>
+
+            <ul id="task-list"></ul>
+
+            <p id="empty-message">Nenhuma tarefa por aqui. Adicione a primeira!</p>
+        </section>
+
+        <footer>
+            <p>TaskFlow — Organização simples para o seu dia.</p>
+        </footer>
+    </main>
+
+    <script src="./src/main.js"></script>
 </body>
 </html>
