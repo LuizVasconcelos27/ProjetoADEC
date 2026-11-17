@@ -1,4 +1,6 @@
 
+import { addTask, toggleTask, deleteTask } from './taskUtils.js';
+
 const form = document.getElementById('task-form');
 const input = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
@@ -30,11 +32,17 @@ function updateTasks() {
 
         const completeButton = document.createElement('button');
         completeButton.textContent = task.completed ? 'Desfazer' : 'Concluir';
-        completeButton.onclick = () => toggleTask(task.id);
+        completeButton.onclick = () => {
+            tasks = toggleTask(tasks, task.id);
+            updateTasks();
+        };
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Excluir';
-        deleteButton.onclick = () => deleteTask(task.id);
+        deleteButton.onclick = () => {
+            tasks = deleteTask(tasks, task.id);
+            updateTasks();
+        };
 
         actions.appendChild(completeButton);
         actions.appendChild(deleteButton);
@@ -46,43 +54,14 @@ function updateTasks() {
     });
 }
 
-function addTask(name) {
-    const cleanName = name.trim();
-
-    if (!cleanName) {
-        return;
-    }
-
-    tasks.push({
-        id: Date.now(),
-        name: cleanName,
-        completed: false
-    });
-
-    updateTasks();
-}
-
-function toggleTask(id) {
-    tasks = tasks.map(task =>
-        task.id === id
-            ? { ...task, completed: !task.completed }
-            : task
-    );
-
-    updateTasks();
-}
-
-function deleteTask(id) {
-    tasks = tasks.filter(task => task.id !== id);
-    updateTasks();
-}
-
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    addTask(input.value);
+    tasks = addTask(tasks, input.value);
     input.value = '';
     input.focus();
+
+    updateTasks();
 });
 
 updateTasks();
