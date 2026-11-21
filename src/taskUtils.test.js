@@ -32,7 +32,7 @@ describe('Funções de tarefas', () => {
             { id: 1, name: 'Estudar', completed: false }
         ];
 
-        const resultado = deleteTask(tarefas, 1);
+        const resultado = deleteTask(tarefas, 2);
 
         expect(resultado).toEqual([]);
     });
