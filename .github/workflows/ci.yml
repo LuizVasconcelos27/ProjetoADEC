@@ -1,15 +1,19 @@
 
-name: CI - TaskFlow
+name: CI/CD - TaskFlow
 
 on:
-  push:
-    branches: [main]
-
   pull_request:
     branches: [main]
 
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
 jobs:
   build-test:
+    name: build-test
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +23,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.18.0
           cache: npm
 
       - name: Instalar dependencias
@@ -30,3 +34,29 @@ jobs:
 
       - name: Gerar build
         run: npm run build
+
+      - name: Armazenar arquivos gerados
+        uses: actions/upload-artifact@v4
+        with:
+          name: netlify-dist
+          path: dist/
+          if-no-files-found: error
+
+  deploy:
+    name: deploy-netlify
+    needs: build-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar arquivos do build
+        uses: actions/download-artifact@v4
+        with:
+          name: netlify-dist
+          path: dist/
+
+      - name: Publicar no Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: npx --yes netlify-cli deploy --prod --dir=dist --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN"
