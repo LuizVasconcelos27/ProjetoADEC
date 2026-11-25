@@ -36,5 +36,7 @@ describe('Funções de tarefas', () => {
 
         expect(resultado).toEqual([]);
     });
-
+test('demonstracao de teste falhando', () => {
+    expect(1).toBe(2);
+});
 });
