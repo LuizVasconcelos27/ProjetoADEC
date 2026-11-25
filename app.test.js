@@ -13,3 +13,7 @@ test('deve somar dois números corretamente', () => {
 test('deve subtrair dois números corretamente', () => {
     expect(subtrair(5, 3)).toBe(2);
 });
+
+test('deve multiplicar dois números corretamente', () => {
+    expect(4 * 3).toBe(12);
+});
